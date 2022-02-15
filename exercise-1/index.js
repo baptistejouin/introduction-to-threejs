@@ -42,6 +42,8 @@ camera.position.set(0, 0, 5)
 camera.lookAt(0, 0, 0)
 scene.add(camera)
 
+const textureLoader = new THREE.TextureLoader()
+const boxTexture = textureLoader.load('./texture.png')
 
 /**
  * Create a BoxGeometry
@@ -50,7 +52,7 @@ scene.add(camera)
  * https://threejs.org/docs/?q=mesh#api/en/materials/MeshBasicMaterial
  */
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
-const boxMaterial = new THREE.MeshBasicMaterial({ color: 0xE5D9F2 })
+const boxMaterial = new THREE.MeshBasicMaterial({ map: boxTexture })
 const box = new THREE.Mesh(boxGeometry, boxMaterial)
 box.position.x = -2
 
@@ -58,7 +60,7 @@ scene.add(box)
 
 // Sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x7371FC })
+const sphereMaterial = new THREE.MeshLambertMaterial({ color: 0x7371FC })
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
 scene.add(sphere)
 
@@ -68,13 +70,22 @@ const coneGeometry = new THREE.ConeGeometry(1, 3, 32)
 const coneMaterial = new THREE.MeshBasicMaterial({ color: 0xCDC1FF })
 const cone = new THREE.Mesh(coneGeometry, coneMaterial)
 cone.position.x = 2
-
 scene.add(cone)
 
+// Light
+const light = new THREE.PointLight(0xffffff, 1.5, 100)
+light.position.set(0, 5, 5)
+scene.add(light)
+
+// Draw
 const draw = (now) => {
 	box.rotation.y += THREE.MathUtils.degToRad(1)
 	box.rotation.x += THREE.MathUtils.degToRad(1)
+
 	box.position.y = Math.sin(now / 1000)
+
+	light.position.x = 4 * Math.sin(now / 1000)
+
 	renderer.render(scene, camera)
 	window.requestAnimationFrame(draw)
 }
