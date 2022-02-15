@@ -44,6 +44,7 @@ scene.add(camera)
 
 const textureLoader = new THREE.TextureLoader()
 const boxTexture = textureLoader.load('./texture.png')
+const matcapTexture = textureLoader.load('./matcap.png')
 
 /**
  * Create a BoxGeometry
@@ -60,14 +61,14 @@ scene.add(box)
 
 // Sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
-const sphereMaterial = new THREE.MeshLambertMaterial({ color: 0x7371FC })
+const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0x7371FC })
 const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial)
 scene.add(sphere)
 
 
 // Cone
 const coneGeometry = new THREE.ConeGeometry(1, 3, 32)
-const coneMaterial = new THREE.MeshBasicMaterial({ color: 0xCDC1FF })
+const coneMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapTexture })
 const cone = new THREE.Mesh(coneGeometry, coneMaterial)
 cone.position.x = 2
 scene.add(cone)
@@ -76,6 +77,9 @@ scene.add(cone)
 const light = new THREE.PointLight(0xffffff, 1.5, 100)
 light.position.set(0, 5, 5)
 scene.add(light)
+
+// Controls
+const controls = new THREE.OrbitControls(camera, canvas)
 
 // Draw
 const draw = (now) => {
