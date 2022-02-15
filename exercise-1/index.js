@@ -71,4 +71,11 @@ cone.position.x = 2
 
 scene.add(cone)
 
-renderer.render(scene, camera)
+const draw = (now) => {
+	box.rotation.y += THREE.MathUtils.degToRad(1)
+	box.rotation.x += THREE.MathUtils.degToRad(1)
+	box.position.y = Math.sin(now / 1000)
+	renderer.render(scene, camera)
+	window.requestAnimationFrame(draw)
+}
+draw()
